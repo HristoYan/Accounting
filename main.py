@@ -1,5 +1,6 @@
 from app_config import db_path, fieldnames
 from models.expense import Expense
+from db.operations import add_money, withdraw_money
 from app_config import db_path, fieldnames
 import csv
 
@@ -21,7 +22,7 @@ def main():
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
             writer.writeheader()
 
-    print('Hello into your account manager')
+    print('Hello, welcome to your account manager')
     print('What would you like to do today?')
 
     while True:
@@ -31,10 +32,12 @@ def main():
             print('Invalid input. "add, extract and check" are the only valid commands.')
 
         if choice == 'add':
-            pass
+            money_to_add = float(input('How much money would you like to add: '))
+            add_money(money_to_add)
 
         elif choice == 'extract':
-            pass
+            expense = float(input('How much money would you like to add: '))
+            withdraw_money(expense)
 
         elif choice == 'check':
             pass
