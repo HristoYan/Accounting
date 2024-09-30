@@ -1,11 +1,11 @@
 class UserLog:
-    def __init__(self, first_name, last_name, age, email, password):
+    def __init__(self, first_name, last_name, age, email, money, password):
         self.email = email
         self.age = age
         self.last_name = last_name
         self.first_name = first_name
         self.password = password
-        self._money = int(input('How much money do you have: '))
+        self._money = money
 
     @property
     def money(self):

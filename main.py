@@ -35,9 +35,10 @@ def main():
             last_name = input('Last name: ')
             age = input('Age: ')
             email = input('Email: ')
+            money = int(input('How much money do you have: '))
             password = input('Password: ')
 
-            log_data = UserLog(first_name, last_name, age, email, password).to_dict()
+            log_data = UserLog(first_name, last_name, age, email, money, password).to_dict()
 
             with open(log_in_path, 'a') as log_file:
                 writer = csv.DictWriter(log_file, fieldnames=fieldnames_log_in)
@@ -61,7 +62,7 @@ def main():
             print('Invalid input. "add, extract and check" are the only valid commands.')
 
         if choice == 'add':
-            add_money(log_data)
+            add_money(log_data) # noqa
 
         elif choice == 'extract':
             withdraw_money()
