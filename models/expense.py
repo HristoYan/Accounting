@@ -2,8 +2,8 @@ import time
 
 
 class Expense:
-    def __init__(self, amount_spend, type_of_expense: str, category: str):
-        self.amount_spend = amount_spend
+    def __init__(self, spend_amount, type_of_expense: str, category: str):
+        self.spend_amount = spend_amount
         self.category = category
         self.time = time.ctime()
         self.type_of_expense = type_of_expense
@@ -23,10 +23,11 @@ class Expense:
         return f'You have ${self._account_amount} in your account.'
 
     def spend(self):
-        if self.amount_spend > self._account_amount:
+        if self.spend_amount > self._account_amount:
             print(f'Impossible you don\'t have that much money!')
+            return False
 
         else:
-            self.set_account_amount(self.amount_spend, 'subtract')
+            self.set_account_amount(self.spend_amount, 'subtract')
             print(f'You have ${self._account_amount} money left.')
             return self._account_amount
