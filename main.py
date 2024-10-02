@@ -30,12 +30,12 @@ def main():
                 reader = csv.DictReader(csv_file)
                 for user in reader:
                     if user['email'] == email and user['password'] == password: # noqa
-                        # first_name, last_name, age, email, money, password
+
                         name = user['first_name'] # noqa
                         print(name)
                         user_data = UserLog(user['first_name'], user['last_name'], user['age'], user['email'], # noqa
                                             user['money'], user['password']) # noqa
-                        print(f'user_data{user_data}')
+
                         logged = True
                         break
                 else:
@@ -60,10 +60,10 @@ def main():
         else:
             print('Invalid input!')
 
-    # if not db_path.exists():
-    #     with open(db_path, 'w') as csv_file:
-    #         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-    #         writer.writeheader()
+    if not db_path.exists():
+        with open(db_path, 'w') as csv_file:
+            writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+            writer.writeheader()
 
     print(f'Hello, {name} welcome to your account manager') # noqa
     print('What would you like to do today?')
@@ -79,7 +79,7 @@ def main():
             add_money(user_data) # noqa
 
         elif choice == 'extract':
-            withdraw_money()
+            withdraw_money(user_data)
 
         elif choice == 'check':
             pass

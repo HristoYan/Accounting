@@ -13,12 +13,12 @@ def add_money(log_data):
     print(log_data.money)
 
 
-def withdraw_money():
-    amount = float(input('How much: '))
+def withdraw_money(log_data):
+    amount = int(input('How much: '))
 
-    if amount < 100.0:
+    if amount < 100:
         expense_type = 'low'
-    elif 100.0 > amount < 1000.0:
+    elif 100 <= amount < 1000:
         expense_type = 'mid'
     else:
         expense_type = 'expensive'
@@ -27,7 +27,6 @@ def withdraw_money():
 
     expense1 = Expense(amount, expense_type, category)
 
-    expense = expense1.spend()
-
-    print(expense)
-    
+    expense1.spend(log_data)
+    expense_to_dict = expense1.to_dict()
+    print(expense_to_dict)

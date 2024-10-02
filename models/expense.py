@@ -8,25 +8,21 @@ class Expense:
         self.time = time.ctime()
         self.type_of_expense = type_of_expense
 
-    def get_account_amount(self):
-        return self._account_amount
-
-    def set_account_amount(self, amount, operation='add'):
-        if operation == 'add':
-            self._account_amount += amount
-            print(f'You have added ${amount} to your account.')
-        elif operation == 'subtract':
-            self._account_amount -= amount
-            print(f'You have spent ${amount}.')
-
-        return f'You have ${self._account_amount} in your account.'
-
-    def spend(self):
-        if self.spend_amount > self._account_amount:
+    def spend(self, user_data):
+        if self.spend_amount > user_data.money:
             print(f'Impossible you don\'t have that much money!')
             return False
 
         else:
-            self.set_account_amount(self.spend_amount, 'subtract')
-            print(f'You have ${self._account_amount} money left.')
-            return self._account_amount
+            user_data.money = -self.spend_amount
+            print(f'You have ${user_data.money} left.')
+
+    def to_dict(self):
+        expense_info = {
+            'spend_amount': self.spend_amount,
+            'type_of_expense': self.type_of_expense,
+            'category': self.category,
+            'time': self.time,
+
+        }
+        return expense_info
