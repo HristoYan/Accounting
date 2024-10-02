@@ -6,8 +6,11 @@ from models.log_in import UserLog
 
 
 def add_money(log_data):
-    money_to_add = float(input('How much money would you like to add: '))
-    print(log_data.money(money_to_add))
+    print(type(log_data))
+    money_to_add = int(input('How much money would you like to add: '))
+    log_data.money = money_to_add
+
+    print(log_data.money)
 
 
 def withdraw_money():

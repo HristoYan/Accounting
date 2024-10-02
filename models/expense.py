@@ -7,7 +7,6 @@ class Expense:
         self.category = category
         self.time = time.ctime()
         self.type_of_expense = type_of_expense
-        self._account_amount = 1000.00
 
     def get_account_amount(self):
         return self._account_amount

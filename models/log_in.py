@@ -4,7 +4,7 @@ class UserLog:
         self.age = age
         self.last_name = last_name
         self.first_name = first_name
-        self._money = money
+        self._money = int(money)
         self._password = password
 
     @property

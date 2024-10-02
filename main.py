@@ -30,7 +30,12 @@ def main():
                 reader = csv.DictReader(csv_file)
                 for user in reader:
                     if user['email'] == email and user['password'] == password: # noqa
-                        user_data = user
+                        # first_name, last_name, age, email, money, password
+                        name = user['first_name'] # noqa
+                        print(name)
+                        user_data = UserLog(user['first_name'], user['last_name'], user['age'], user['email'], # noqa
+                                            user['money'], user['password']) # noqa
+                        print(f'user_data{user_data}')
                         logged = True
                         break
                 else:
@@ -44,13 +49,13 @@ def main():
             money = int(input('How much money do you have: '))
             password = input('Password: ')
 
-            log_data = UserLog(first_name, last_name, age, email, money, password).to_dict()
-            print(log_data)
+            user_data = UserLog(first_name, last_name, age, email, money, password).to_dict()
+            print(user_data)
 
             with open(log_in_path, 'a') as log_file:
                 print(fieldnames_log_in)
                 writer = csv.DictWriter(log_file, fieldnames=fieldnames_log_in)
-                writer.writerow(log_data)
+                writer.writerow(user_data)
             print('Your registration was successful. Now you can Log In.')
         else:
             print('Invalid input!')
@@ -60,7 +65,7 @@ def main():
     #         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
     #         writer.writeheader()
 
-    print(f'Hello, {user_data['first_name']} welcome to your account manager') # noqa
+    print(f'Hello, {name} welcome to your account manager') # noqa
     print('What would you like to do today?')
 
     while True:
@@ -70,7 +75,8 @@ def main():
             print('Invalid input. "add, extract and check" are the only valid commands.')
 
         if choice == 'add':
-            add_money(log_data) # noqa
+            print(user_data)
+            add_money(user_data) # noqa
 
         elif choice == 'extract':
             withdraw_money()
