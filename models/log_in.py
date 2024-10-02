@@ -4,8 +4,8 @@ class UserLog:
         self.age = age
         self.last_name = last_name
         self.first_name = first_name
-        self.password = password
         self._money = money
+        self._password = password
 
     @property
     def money(self):
@@ -22,7 +22,8 @@ class UserLog:
             'last_name': self.last_name,
             'age': self.age,
             'email': self.email,
-            'password': self.password
+            'money': self._money,
+            'password': self._password
         }
         return log_info
 
