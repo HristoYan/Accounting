@@ -32,7 +32,7 @@ def main():
                     if user['email'] == email and user['password'] == password: # noqa
 
                         name = user['first_name'] # noqa
-                        print(name)
+
                         user_data = UserLog(user['first_name'], user['last_name'], user['age'], user['email'], # noqa
                                             user['money'], user['password']) # noqa
 
@@ -50,7 +50,6 @@ def main():
             password = input('Password: ')
 
             user_data = UserLog(first_name, last_name, age, email, money, password).to_dict()
-            print(user_data)
 
             with open(log_in_path, 'a') as log_file:
                 print(fieldnames_log_in)
@@ -75,7 +74,6 @@ def main():
             print('Invalid input. "add, extract and check" are the only valid commands.')
 
         if choice == 'add':
-            print(user_data)
             add_money(user_data) # noqa
 
         elif choice == 'extract':

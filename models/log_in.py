@@ -1,3 +1,5 @@
+from app_config import log_in_path
+
 class UserLog:
     def __init__(self, first_name, last_name, age, email, money, password):
         self.email = email
