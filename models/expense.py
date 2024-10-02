@@ -19,8 +19,8 @@ class Expense:
 
     def to_dict(self):
         expense_info = {
-            'spend_amount': self.spend_amount,
-            'type_of_expense': self.type_of_expense,
+            'amount': self.spend_amount,
+            'type': self.type_of_expense,
             'category': self.category,
             'time': self.time,
 

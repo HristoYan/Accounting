@@ -30,3 +30,7 @@ def withdraw_money(log_data):
     expense1.spend(log_data)
     expense_to_dict = expense1.to_dict()
     print(expense_to_dict)
+    with open(db_path, 'a') as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writerow(expense_to_dict)
+
