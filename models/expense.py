@@ -2,7 +2,7 @@ import time
 
 
 class Expense:
-    def __init__(self, spend_amount, type_of_expense: str, category: str):
+    def __init__(self, spend_amount: int, type_of_expense: str, category: str):
         self.spend_amount = spend_amount
         self.category = category
         self.time = time.ctime()
@@ -16,9 +16,11 @@ class Expense:
         else:
             user_data.money = -self.spend_amount
             print(f'You have ${user_data.money} left.')
+            return user_data.money
 
-    def to_dict(self):
+    def to_dict(self, user_data):
         expense_info = {
+            'user_id': user_data.id,
             'amount': self.spend_amount,
             'type': self.type_of_expense,
             'category': self.category,

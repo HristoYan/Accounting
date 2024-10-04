@@ -1,8 +1,6 @@
 from app_config import db_path, fieldnames, log_in_path, fieldnames_log_in
-from models.expense import Expense
 from models.log_in import UserLog
 from db.operations import add_money, withdraw_money
-from app_config import db_path, fieldnames
 import csv
 import sys
 
@@ -35,7 +33,9 @@ def main():
 
                         user_data = UserLog(user['first_name'], user['last_name'], user['age'], user['email'], # noqa
                                             user['money'], user['password']) # noqa
-
+                        print(f'Log in id: {user['id']}')
+                        user_data.id = user['id']
+                        print(f'Log in id: {user_data.id}')
                         logged = True
                         break
                 else:
@@ -44,15 +44,14 @@ def main():
         elif log_reg == 'reg':
             first_name = input('First name: ')
             last_name = input('Last name: ')
-            age = input('Age: ')
+            age = int(input('Age: '))
             email = input('Email: ')
             money = int(input('How much money do you have: '))
             password = input('Password: ')
 
             user_data = UserLog(first_name, last_name, age, email, money, password).to_dict()
 
-            with open(log_in_path, 'a') as log_file:
-                print(fieldnames_log_in)
+            with open(log_in_path, 'a', newline='') as log_file:
                 writer = csv.DictWriter(log_file, fieldnames=fieldnames_log_in)
                 writer.writerow(user_data)
             print('Your registration was successful. Now you can Log In.')
@@ -65,6 +64,7 @@ def main():
             writer.writeheader()
 
     print(f'Hello, {name} welcome to your account manager') # noqa
+    print(f'Main extract id: {user_data.id}')
     print('What would you like to do today?')
 
     while True:
@@ -77,6 +77,7 @@ def main():
             add_money(user_data) # noqa
 
         elif choice == 'extract':
+            print(f'Main extract id: {user_data.id}')
             withdraw_money(user_data)
 
         elif choice == 'check':
