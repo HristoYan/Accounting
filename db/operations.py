@@ -37,27 +37,29 @@ def withdraw_money(log_data):
 
 
 def display_expenses(user_data):
-    print('How would you like to see the expenses: all, by date, by period, max in category, min in category')
+    print('How would you like to see the expenses: all(all), by date(date), '
+          'by period(period), by category(category), max in category(max), min in category(min)')
     sorting = input()
     expenses = []
     with open(db_path, 'r') as f:
         reader = csv.DictReader(f)
 
         if sorting == 'all':
-            expenses = display_all_expenses(user_data, reader)
+            expenses = display_all_expenses(user_data.id, reader)
 
-        elif sorting == 'by date':
-            expenses = display_by_date(user_data, reader)
+        elif sorting == 'date':
+            expenses = display_by_date(user_data.id, reader)
 
-        elif sorting == 'by period':
-            expenses = display_by_period(user_data, reader)
-        elif sorting == 'by category':
+        elif sorting == 'period':
+            expenses = display_by_period(user_data.id, reader)
+        elif sorting == 'category':
             expenses = display_by_category(user_data.id, reader)
 
-        elif sorting == 'max in category':
-            pass
-        elif sorting == 'min in category':
-            pass
+        elif sorting == 'max':
+            expenses = display_max_in_category(user_data.id, reader)
+
+        elif sorting == 'min':
+            expenses = display_min_in_category(user_data.id, user_data.money, reader)
 
     for expense in expenses:
         print(expense_view(expense))
@@ -84,16 +86,16 @@ def update_log(user_data):
             writer.writerow(row) # noqa
 
 
-def display_all_expenses(user, rows):
+def display_all_expenses(user_id, rows):
     all_expenses = []
     for row in rows:
-        if user.id == row['user_id']: # noqa
+        if user_id == row['user_id']: # noqa
             all_expenses.append(row)
 
     return all_expenses
 
 
-def display_by_date(user, rows):
+def display_by_date(user_id, rows):
 
     date_expenses = []
     date_to_check = input('Date to check(YYYY-MM-DD): ')
@@ -110,13 +112,13 @@ def display_by_date(user, rows):
         dt = pendulum.parse(row['time'], struct=False)
         row_year, row_month, row_day = dt.year, dt.month, dt.day
         row_date = f'{row_year}-{row_month}-{row_day}'
-        if user.id == row['user_id'] and dtc_str == row_date:  # noqa
+        if user_id == row['user_id'] and dtc_str == row_date:  # noqa
             date_expenses.append(row)
 
     return date_expenses
 
 
-def display_by_period(user, rows):
+def display_by_period(user_id, rows):
     period_expenses = []
     starting_date = input('Starting from(YYYY-MM-DD): ')
     finish_date = input('Ending on(YYYY-MM-DD): ')
@@ -133,7 +135,7 @@ def display_by_period(user, rows):
 
     for row in rows:
         td = pendulum.parse(row['time'], struct=False).timestamp()
-        if user.id == row['user_id'] and starting_date <= td <= finish_date:
+        if user_id == row['user_id'] and starting_date <= td <= finish_date:
             period_expenses.append(row)
 
     return period_expenses
@@ -145,6 +147,32 @@ def display_by_category(user_id, rows):
     for row in rows:
         if user_id == row['user_id'] and row['category'] == category:
             category_expenses.append(row)
+
+    return category_expenses
+
+
+def display_max_in_category(user_id, rows):
+    category_expenses = [0]
+    expense_amount = 0
+    category = input('Category of expenses: ')
+    for row in rows:
+        if user_id == row['user_id'] and row['category'] == category:
+            if int(row['amount']) > expense_amount:
+                expense_amount = int(row['amount'])
+                category_expenses[0] = row
+
+    return category_expenses
+
+
+def display_min_in_category(user_id, user_money, rows):
+    category_expenses = [0]
+    expense_amount = user_money
+    category = input('Category of expenses: ')
+    for row in rows:
+        if user_id == row['user_id'] and row['category'] == category:
+            if int(row['amount']) < expense_amount:
+                expense_amount = int(row['amount'])
+                category_expenses[0] = row
 
     return category_expenses
 
