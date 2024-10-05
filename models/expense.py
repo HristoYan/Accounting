@@ -1,11 +1,11 @@
-import time
+import pendulum
 
 
 class Expense:
     def __init__(self, spend_amount: int, type_of_expense: str, category: str):
         self.spend_amount = spend_amount
         self.category = category
-        self.time = time.ctime()
+        self.time = pendulum.now('Europe/Sofia')
         self.type_of_expense = type_of_expense
 
     def spend(self, user_data):

@@ -1,6 +1,6 @@
 from app_config import db_path, fieldnames, log_in_path, fieldnames_log_in
 from models.log_in import UserLog
-from db.operations import add_money, withdraw_money
+from db.operations import add_money, withdraw_money, display_expenses
 import csv
 import sys
 
@@ -31,11 +31,14 @@ def main():
 
                         name = user['first_name'] # noqa
 
-                        user_data = UserLog(user['first_name'], user['last_name'], user['age'], user['email'], # noqa
-                                            user['money'], user['password']) # noqa
-                        print(f'Log in id: {user['id']}')
-                        user_data.id = user['id']
-                        print(f'Log in id: {user_data.id}')
+                        user_data = UserLog(user['first_name'], # noqa
+                                            user['last_name'], # noqa
+                                            user['age'], # noqa
+                                            user['email'], # noqa
+                                            user['money'], # noqa
+                                            user['password']) # noqa
+
+                        user_data.id = user['id'] # noqa
                         logged = True
                         break
                 else:
@@ -64,24 +67,24 @@ def main():
             writer.writeheader()
 
     print(f'Hello, {name} welcome to your account manager') # noqa
-    print(f'Main extract id: {user_data.id}')
     print('What would you like to do today?')
 
     while True:
-        print('Choose one of the following options: add, extract, check: ')
+        print('Choose one of the following options: add, extract, check, exit: ')
         choice = input()
-        if choice not in ['add', 'extract', 'check']:
+        if choice not in ['add', 'extract', 'check', 'exit']:
             print('Invalid input. "add, extract and check" are the only valid commands.')
 
         if choice == 'add':
             add_money(user_data) # noqa
 
         elif choice == 'extract':
-            print(f'Main extract id: {user_data.id}')
             withdraw_money(user_data)
 
         elif choice == 'check':
-            pass
+            display_expenses(user_data)
+        elif choice == 'exit':
+            sys.exit()
 
 
 if __name__ == '__main__':
