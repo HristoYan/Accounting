@@ -58,24 +58,53 @@ def display_by_date(user_id, rows):
 
 def display_by_period(user_id, rows):
     period_expenses = []
-    starting_date = input('Starting from(YYYY-MM-DD): ')
-    finish_date = input('Ending on(YYYY-MM-DD): ')
-    try:
-        starting_date = pendulum.from_format(starting_date, 'YYYY-MM-DD').date()
-        finish_date = pendulum.from_format(finish_date, 'YYYY-MM-DD').date()
-    except ValueError:
-        print('The dates should be in the correct format: YYYY-MM-DD.')
-        return
 
-    starting_date = pendulum.parse(str(starting_date)).timestamp()
-    finish_date = finish_date.add(days=1)
-    finish_date = pendulum.parse(str(finish_date)).timestamp()
+    start, end = period_info()
 
     for row in rows:
-        td = pendulum.parse(row['time'], struct=False).timestamp()
-        if user_id == row['user_id'] and starting_date <= td <= finish_date:
-            period_expenses.append(row)
+        try:
+            row_time = pendulum.parse(row['time']).timestamp()
 
+            if user_id == row['user_id'] and start <= row_time <= end:
+                period_expenses.append(row)
+        except Exception as e:
+            print(f"Error parsing date for row: {row}, error: {e}")
+            continue
+
+    return period_expenses
+
+
+def display_max_by_period(user_id, rows):
+    period_expenses = [0]
+
+    start, end = period_info()
+    temp_amount = 0
+    for row in rows:
+        try:
+            td = pendulum.parse(row['time']).timestamp()
+            if user_id == row['user_id'] and start <= td <= end:
+                if int(row['amount']) > temp_amount:
+                    period_expenses[0] = row
+                    temp_amount = int(row['amount'])
+        except Exception as e:
+            print(f"Error parsing date for row: {row}, error: {e}")
+    return period_expenses
+
+
+def display_min_by_period(user_id, money, rows):
+    period_expenses = [0]
+
+    start, end = period_info()
+    temp_amount = int(money)
+    for row in rows:
+        try:
+            td = pendulum.parse(row['time']).timestamp()
+            if user_id == row['user_id'] and start <= td <= end:
+                if int(row['amount']) < temp_amount:
+                    period_expenses[0] = row
+                    temp_amount = int(row['amount'])
+        except Exception as e:
+            print(f"Error parsing date for row: {row}, error: {e}")
     return period_expenses
 
 
@@ -90,29 +119,64 @@ def display_by_category(user_id, rows):
 
 
 def display_max_in_category(user_id, rows):
-    category_expenses = [0]
-    expense_amount = 0
-    category = input('Category of expenses: ')
-    for row in rows:
-        if user_id == row['user_id'] and row['category'] == category:
-            if int(row['amount']) > expense_amount:
-                expense_amount = int(row['amount'])
-                category_expenses[0] = row
+    max_category_list = []
 
-    return category_expenses
+    for row in rows:
+        if user_id == row['user_id']:
+            category = row['category']
+            amount = row['amount']
+            date = row['time']
+
+            category_found = False
+            for cat_dict in max_category_list:
+                if cat_dict['category'] == category:
+                    cat_dict['amount'] = max(cat_dict['amount'], amount)
+                    category_found = True
+                    break
+
+            if not category_found:
+                max_category_list.append({'category': category, 'amount': amount, 'time': date})
+
+    return max_category_list
 
 
 def display_min_in_category(user_id, user_money, rows):
-    category_expenses = [0]
-    expense_amount = user_money
-    category = input('Category of expenses: ')
-    for row in rows:
-        if user_id == row['user_id'] and row['category'] == category:
-            if int(row['amount']) < expense_amount:
-                expense_amount = int(row['amount'])
-                category_expenses[0] = row
+    min_category_list = []
 
-    return category_expenses
+    for row in rows:
+        if user_id == row['user_id']:
+            category = row['category']
+            amount = row['amount']
+            date = row['time']
+
+            category_found = False
+            for cat_dict in min_category_list:
+                if cat_dict['category'] == category:
+                    cat_dict['amount'] = min(cat_dict['amount'], amount)
+                    category_found = True
+                    break
+
+            if not category_found:
+                min_category_list.append({'category': category, 'amount': amount, 'time': date})
+
+    return min_category_list
+
+
+def period_info():
+    start_date = input('Starting from (YYYY-MM-DD): ')
+    end_date = input('Ending on (YYYY-MM-DD): ')
+
+    try:
+        starting_date = pendulum.from_format(start_date, 'YYYY-MM-DD')
+        finish_date = pendulum.from_format(end_date, 'YYYY-MM-DD').add(days=1)
+    except ValueError:
+        print('The dates should be in the correct format: YYYY-MM-DD.')
+        return
+
+    starting_timestamp = starting_date.timestamp()
+    finish_timestamp = finish_date.timestamp()
+
+    return starting_timestamp, finish_timestamp
 
 
 def expense_view(expense):
