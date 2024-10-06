@@ -9,17 +9,14 @@ from models.log_in import UserLog
 
 
 def add_money(log_data):
-    print(f'Add money id: {log_data.id}')
     money_to_add = int(input('How much money would you like to add: '))
     log_data.money = money_to_add
 
-    print(log_data.money)
     update_log(log_data)
 
 
 def withdraw_money(log_data):
     amount = int(input('How much: '))
-    print(f'Withdraw id: {log_data.id}')
     if amount < 100:
         expense_type = 'low'
     elif 100 <= amount < 1000:
@@ -73,7 +70,7 @@ def display_expenses(user_data):
             print('The maximum expenditure in each category: ')
 
         elif sorting == 'min':
-            expenses = display_min_in_category(user_data.id, user_data.money, reader)
+            expenses = display_min_in_category(user_data.id, reader)
             print('The minimum expenditure in each category: ')
 
     for expense in expenses:

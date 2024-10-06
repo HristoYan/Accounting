@@ -3,6 +3,7 @@ from models.log_in import UserLog
 from db.operations import add_money, withdraw_money, display_expenses
 import csv
 import sys
+import re
 
 
 def main():
@@ -48,7 +49,29 @@ def main():
             first_name = input('First name: ')
             last_name = input('Last name: ')
             age = int(input('Age: '))
-            email = input('Email: ')
+            while True:
+                try:
+                    flag = False
+                    regexp = r'^[a-z]{2,}@[a-z]+\.[a-z]{2,3}$'
+                    email = input('Email: ')
+
+                    if re.fullmatch(regexp, email):
+                        flag = True
+                    else:
+                        raise ValueError('Invalid Email Format!')
+                except ValueError as e:
+                    print(e)
+
+                with open(log_in_path, 'r') as logFile:
+                    reader = csv.DictReader(logFile)
+                    for row in reader:
+                        if row['email'] == email:  # noqa
+                            print('The email already exist!')
+                            flag = False
+                            break
+                if flag:
+                    break
+
             money = int(input('How much money do you have: '))
             password = input('Password: ')
 

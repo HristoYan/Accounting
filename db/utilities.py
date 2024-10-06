@@ -8,11 +8,10 @@ def update_log(user_data):
     with open(log_in_path, 'r') as f:
         reader = csv.DictReader(f)
         for row in reader:
-            print(f'User data id: {user_data.id}')
-            print(f"Row id: {row['id']}") # noqa
+
             if str(user_data.id) == str(row['id']): # noqa
 
-                row['money'] = user_data.money
+                row['money'] = user_data.money # noqa
 
             updated_log.append(row)
 
@@ -20,7 +19,6 @@ def update_log(user_data):
         writer = csv.DictWriter(file, fieldnames=fieldnames_log_in)
         writer.writeheader()
         for row in updated_log:
-            print(row)
             writer.writerow(row) # noqa
 
 
@@ -68,7 +66,7 @@ def display_by_period(user_id, rows):
             if user_id == row['user_id'] and start <= row_time <= end:
                 period_expenses.append(row)
         except Exception as e:
-            print(f"Error parsing date for row: {row}, error: {e}")
+            print(f"Error parsing date for: {row}, error: {e}")
             continue
 
     return period_expenses
@@ -87,7 +85,7 @@ def display_max_by_period(user_id, rows):
                     period_expenses[0] = row
                     temp_amount = int(row['amount'])
         except Exception as e:
-            print(f"Error parsing date for row: {row}, error: {e}")
+            print(f"Error parsing date for: {row}, error: {e}")
     return period_expenses
 
 
@@ -104,7 +102,7 @@ def display_min_by_period(user_id, money, rows):
                     period_expenses[0] = row
                     temp_amount = int(row['amount'])
         except Exception as e:
-            print(f"Error parsing date for row: {row}, error: {e}")
+            print(f"Error parsing date for: {row}, error: {e}")
     return period_expenses
 
 
@@ -140,7 +138,7 @@ def display_max_in_category(user_id, rows):
     return max_category_list
 
 
-def display_min_in_category(user_id, user_money, rows):
+def display_min_in_category(user_id, rows):
     min_category_list = []
 
     for row in rows:
