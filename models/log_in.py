@@ -1,5 +1,4 @@
 import csv
-
 from app_config import log_in_path
 
 

@@ -1,16 +1,18 @@
 import csv
-import pendulum
 from db.utilities import (update_log, display_by_date, display_by_category, display_max_in_category,
                           display_min_in_category, display_by_period, display_all_expenses, expense_view,
                           display_max_by_period, display_min_by_period)
 from app_config import db_path, fieldnames, log_in_path, fieldnames_log_in
 from models.expense import Expense
-from models.log_in import UserLog
 
 
 def add_money(log_data):
     money_to_add = int(input('How much money would you like to add: '))
-    log_data.money = money_to_add
+    if money_to_add < 0:
+        print("Invalid amount. You cannot add a negative amount of money.")
+        return
+
+    log_data.money += money_to_add
 
     update_log(log_data)
 

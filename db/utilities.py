@@ -8,9 +8,7 @@ def update_log(user_data):
     with open(log_in_path, 'r') as f:
         reader = csv.DictReader(f)
         for row in reader:
-
             if str(user_data.id) == str(row['id']): # noqa
-
                 row['money'] = user_data.money # noqa
 
             updated_log.append(row)
@@ -18,8 +16,7 @@ def update_log(user_data):
     with open(log_in_path, 'w') as file:
         writer = csv.DictWriter(file, fieldnames=fieldnames_log_in)
         writer.writeheader()
-        for row in updated_log:
-            writer.writerow(row) # noqa
+        writer.writerows(updated_log) # noqa
 
 
 def display_all_expenses(user_id, rows):
