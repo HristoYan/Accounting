@@ -14,7 +14,6 @@ class Expense:
             return False
 
         else:
-            print(user_data.money)
             user_data.money -= self.spend_amount
             print(f'You have ${user_data.money} left.')
             return user_data.money

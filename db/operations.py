@@ -7,18 +7,24 @@ from models.expense import Expense
 
 
 def add_money(log_data):
+    print(log_data.money)
     money_to_add = int(input('How much money would you like to add: '))
-    if money_to_add < 0:
+    if money_to_add <= 0:
         print("Invalid amount. You cannot add a negative amount of money.")
         return
 
-    log_data.money += money_to_add
+    log_data.money = money_to_add
+    print(log_data.money)
 
     update_log(log_data)
 
 
 def withdraw_money(log_data):
     amount = int(input('How much: '))
+    if amount < 0:
+        print('The expense must be a positive number!')
+        return
+
     if amount < 100:
         expense_type = 'low'
     elif 100 <= amount < 1000:

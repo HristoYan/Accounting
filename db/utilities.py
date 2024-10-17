@@ -29,7 +29,7 @@ def display_all_expenses(user_id, rows):
 
 
 def display_by_date(user_id, rows):
-
+    """Report expenditure for a specific date."""
     date_expenses = []
     date_to_check = input('Date to check(YYYY-MM-DD): ')
     try:
