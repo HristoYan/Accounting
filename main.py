@@ -18,11 +18,15 @@ def main():
         if logged:
             break
 
-        print('Please Log in or Register (log/reg/exit): ')
+        print('Please Log in or Register:\n1 - Log in\n2 - Register\n3 - Exit: ')
         log_reg = input()
-        if log_reg == 'exit':
+        if log_reg not in ['1', '2', '3']:
+            print('Invalid input. 1, 2, 3 are the only valid commands.')
+            break
+
+        if log_reg == '3':
             sys.exit()
-        elif log_reg == 'log':
+        elif log_reg == '1':
             email = input('Email: ')
             password = input('Password: ')
             with open(log_in_path, 'r') as csv_file:
@@ -30,28 +34,26 @@ def main():
                 for user in reader:
                     if user['email'] == email and user['password'] == password: # noqa
 
-                        name = user['first_name'] # noqa
-
                         user_data = UserLog(user['first_name'], # noqa
                                             user['last_name'], # noqa
                                             user['age'], # noqa
                                             user['email'], # noqa
                                             user['money'], # noqa
                                             user['password']) # noqa
-
+                        # to make sure that the id is correct for it tries to change it to the next id available
                         user_data.id = user['id'] # noqa
                         logged = True
                         break
                 else:
                     print('No such user was found!')
 
-        elif log_reg == 'reg':
+        elif log_reg == '2':
             first_name = input('First name: ')
             last_name = input('Last name: ')
             age = int(input('Age: '))
             while True:
+                flag = False
                 try:
-                    flag = False
                     regexp = r'^[a-z]{2,}@[a-z]+\.[a-z]{2,3}$'
                     email = input('Email: ')
 
@@ -89,7 +91,7 @@ def main():
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
             writer.writeheader()
 
-    print(f'Hello, {name} welcome to your account manager') # noqa
+    print(f'Hello, {user_data.first_name} welcome to your account manager') # noqa
     print('What would you like to do today?')
 
     while True:
@@ -97,7 +99,7 @@ def main():
 
         choice = input()
         if choice not in ['1', '2', '3', '4']:
-            print('Invalid input. "add, extract and check" are the only valid commands.')
+            print('Invalid input. 1, 2, 3, 4 are the only valid commands.')
 
         if choice == '1':
             add_money(user_data) # noqa

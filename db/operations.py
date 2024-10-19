@@ -50,7 +50,7 @@ def display_expenses(user_data):
           '\n6 - by category\n7 - max in category\n8 - min in category')
     sorting = input()
     if sorting not in ['1', '2', '3', '4', '5', '6', '7', '8']:
-        print('Invalid input. "add, extract and check" are the only valid commands.')
+        print('Invalid input. 1, 2, 3, 4, 5, 6, 7, 8 are the only valid commands.')
 
     expenses = []
     with open(db_path, 'r') as f:
