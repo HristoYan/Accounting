@@ -93,20 +93,21 @@ def main():
     print('What would you like to do today?')
 
     while True:
-        print('Choose one of the following options: add, extract, check, exit: ')
+        print('Choose one of the following options: \n1 - add\n2 - expense\n3 - check\n4 - exit: ')
+
         choice = input()
-        if choice not in ['add', 'extract', 'check', 'exit']:
+        if choice not in ['1', '2', '3', '4']:
             print('Invalid input. "add, extract and check" are the only valid commands.')
 
-        if choice == 'add':
+        if choice == '1':
             add_money(user_data) # noqa
 
-        elif choice == 'extract':
+        elif choice == '2':
             withdraw_money(user_data)
 
-        elif choice == 'check':
+        elif choice == '3':
             display_expenses(user_data)
-        elif choice == 'exit':
+        elif choice == '4':
             sys.exit()
 
 

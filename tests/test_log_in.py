@@ -6,9 +6,6 @@ from unittest.mock import patch
 class TestUserLog(unittest.TestCase):
     @patch('models.log_in.UserLog.get_next_id', return_value=1)
     def test_register_initialization(self, mock_get_next_id):
-        # Following some best practices when writing unit test is important.
-        # Read more here:
-        # https://docs.pytest.org/en/latest/explanation/anatomy.html
 
         # Arrange
         first_name = 'John'

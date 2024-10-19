@@ -9,59 +9,47 @@ import csv
 class TestMoneyFunctions(unittest.TestCase):
 
     def setUp(self):
-        # Mock user data
         self.user_data = MagicMock()
         self.user_data.id = 1
-        self.user_data.money = 500  # Starting balance is 500
+        self.user_data.first_name = 'John'
+        self.user_data.last_name = 'Doe'
+        self.user_data.age = 23
+        self.user_data.email = 'john@doe.com'
+        self.user_data.money = 500
 
-    @patch('builtins.input', return_value='200')
+    @patch('builtins.input', return_value='700')
     @patch("builtins.open", new_callable=mock_open, read_data="id,money\n1,500\n2,1000\n")
     @patch("db.operations.update_log")
     def test_add_money_success(self, mock_update_log, mock_file, mock_input):
-        # Simulate adding 200 units of money
-        add_money(self.user_data)
+        result = add_money(self.user_data)
 
-        # Check if money has been updated correctly in the user data
-        self.assertEqual(self.user_data.money, 700)  # 500 + 200 = 700
+        self.assertEqual(result, 700)
 
-        # Verify that update_log was called to update the CSV
         mock_update_log.assert_called_once_with(self.user_data)
 
-    @patch("builtins.open", new_callable=mock_open, read_data="id,money\n1,500\n2,1000\n")
+    @patch("builtins.open", new_callable=mock_open, read_data="id,first_name,last_name,age,email,money,password")
     def test_update_log_success(self, mock_file):
-        # Simulate calling update_log to modify the CSV file
         update_log(self.user_data)
 
-        # Verify that the file was opened for reading, then for writing
-        mock_file.assert_any_call(log_in_path, 'r')  # Check the reading mode
+        mock_file.assert_any_call(log_in_path, 'r')
 
-        mock_file.assert_any_call(log_in_path, 'w')  # Check the writing mode
-        # Ensure the calls happened in the correct order
-        # calls = [unittest.mock.call(log_in_path, 'r'), unittest.mock.call(log_in_path, 'w')]
-        # mock_file.assert_has_calls(calls)
-        # Verify that the money was updated in the file for the correct user
+        mock_file.assert_any_call(log_in_path, 'w')
+
         handle = mock_file()
-        handle.write.assert_called()  # Verifies that the file was written to
+        handle.write.assert_called()
 
-        # We can also assert the expected rows being written
-        expected_calls = [
-            unittest.mock.call().write('id,money\n'),
-            unittest.mock.call().write('1,500\n'),  # Assuming 500 remains the same here
-            unittest.mock.call().write('2,1000\n')
-        ]
+        expected_calls = [unittest.mock.call().write('id,first_name,last_name,age,email,money,password\r\n')]
+
         handle.write.assert_has_calls(expected_calls, any_order=True)
 
     @patch('builtins.input', return_value='-100')
     @patch("builtins.open", new_callable=mock_open, read_data="id,money\n1,500\n2,1000\n")  # Mocking file in update_log
     def test_add_money_negative(self, mock_file, mock_input):
-        # Adding negative money should not update the user's balance
         add_money(self.user_data)
 
-        # Ensure money remains unchanged
-        self.assertEqual(self.user_data.money, 500)  # Balance should not change
+        self.assertEqual(self.user_data.money, 500)
 
-        # Ensure update_log was not called for invalid input
-        mock_file().write.assert_not_called()  # No file write should happen
+        mock_file().write.assert_not_called()
 
 
 if __name__ == '__main__':

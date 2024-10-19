@@ -14,9 +14,9 @@ def add_money(log_data):
         return
 
     log_data.money = money_to_add
-    print(log_data.money)
 
     update_log(log_data)
+    return log_data.money
 
 
 def withdraw_money(log_data):
@@ -45,39 +45,42 @@ def withdraw_money(log_data):
 
 
 def display_expenses(user_data):
-    print('How would you like to see the expenses: all(all), by date(date), '
-          'by period(period), max in period(max period), min in period(min period)'
-          'by category(category), max in category(max), min in category(min)')
+    print('How would you like to see the expenses: \n1 - all\n2 - by date'
+          '\n3 - by period\n4 - max in period\n5 - min in period'
+          '\n6 - by category\n7 - max in category\n8 - min in category')
     sorting = input()
+    if sorting not in ['1', '2', '3', '4', '5', '6', '7', '8']:
+        print('Invalid input. "add, extract and check" are the only valid commands.')
+
     expenses = []
     with open(db_path, 'r') as f:
         reader = csv.DictReader(f)
 
-        if sorting == 'all':
+        if sorting == '1':
             expenses = display_all_expenses(user_data.id, reader)
 
-        elif sorting == 'date':
+        elif sorting == '2':
             expenses = display_by_date(user_data.id, reader)
 
-        elif sorting == 'period':
+        elif sorting == '3':
             expenses = display_by_period(user_data.id, reader)
 
-        elif sorting == 'max period':
+        elif sorting == '4':
             expenses = display_max_by_period(user_data.id, reader)
             print('The maximum expenditure in the given period: ')
 
-        elif sorting == 'min period':
+        elif sorting == '5':
             expenses = display_min_by_period(user_data.id, user_data.money, reader)
             print('The minimum expenditure in the given period: ')
 
-        elif sorting == 'category':
+        elif sorting == '6':
             expenses = display_by_category(user_data.id, reader)
 
-        elif sorting == 'max':
+        elif sorting == '7':
             expenses = display_max_in_category(user_data.id, reader)
             print('The maximum expenditure in each category: ')
 
-        elif sorting == 'min':
+        elif sorting == '8':
             expenses = display_min_in_category(user_data.id, reader)
             print('The minimum expenditure in each category: ')
 
