@@ -7,6 +7,8 @@ from models.expense import Expense
 
 
 def add_money(log_data):
+    """Increase the user's account money"""
+
     try:
         money_to_add = int(input('How much money would you like to add -> '))
         if money_to_add <= 0:
@@ -22,6 +24,7 @@ def add_money(log_data):
 
 
 def withdraw_money(log_data):
+    """Reduces the user's account money"""
     try:
         amount = int(input('How much: '))
         if amount < 0:
@@ -50,6 +53,7 @@ def withdraw_money(log_data):
 
 
 def display_expenses(user_data):
+    """Displays different options to see expenses"""
     print('How would you like to see the expenses: \n1 - all\n2 - by date'
           '\n3 - by period\n4 - max in period\n5 - min in period'
           '\n6 - by category\n7 - max in category\n8 - min in category')

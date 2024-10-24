@@ -4,6 +4,7 @@ from app_config import log_in_path, fieldnames_log_in
 
 
 def update_log(user_data):
+    """Updates user's account money"""
     updated_log = []
     with open(log_in_path, 'r') as f:
         reader = csv.DictReader(f)
@@ -20,6 +21,7 @@ def update_log(user_data):
 
 
 def display_all_expenses(user_id, rows):
+    """Reports all user expenses"""
     all_expenses = []
     for row in rows:
         if user_id == row['user_id']: # noqa
@@ -52,6 +54,7 @@ def display_by_date(user_id, rows):
 
 
 def display_by_period(user_id, rows):
+    """Reports the Expenses of the user for a given period"""
     period_expenses = []
 
     start, end = period_info()
@@ -70,6 +73,7 @@ def display_by_period(user_id, rows):
 
 
 def display_max_by_period(user_id, rows):
+    """Reports the highest expense in a given period"""
     period_expenses = [0]
 
     start, end = period_info()
@@ -87,6 +91,8 @@ def display_max_by_period(user_id, rows):
 
 
 def display_min_by_period(user_id, money, rows):
+    """Reports the lowest expense in a given period"""
+
     period_expenses = [0]
 
     start, end = period_info()
@@ -104,6 +110,7 @@ def display_min_by_period(user_id, money, rows):
 
 
 def display_by_category(user_id, rows):
+    """Reports the expenses of a given category for the user"""
     category_expenses = []
     category = input('Category of expenses: ')
     for row in rows:
@@ -114,6 +121,7 @@ def display_by_category(user_id, rows):
 
 
 def display_max_in_category(user_id, rows):
+    """Reports the highest expense in every category"""
     max_category_list = []
 
     for row in rows:
@@ -136,6 +144,8 @@ def display_max_in_category(user_id, rows):
 
 
 def display_min_in_category(user_id, rows):
+    """Reports the lowest expense in every category"""
+
     min_category_list = []
 
     for row in rows:
@@ -158,6 +168,8 @@ def display_min_in_category(user_id, rows):
 
 
 def period_info():
+    """Takes user's input and formated it in the right format"""
+
     start_date = input('Starting from (YYYY-MM-DD): ')
     end_date = input('Ending on (YYYY-MM-DD): ')
 
@@ -175,4 +187,5 @@ def period_info():
 
 
 def expense_view(expense):
+    """Displays the expenses"""
     return f'${expense['amount']} spend on {expense['time']} for {expense['category']}'
