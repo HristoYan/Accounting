@@ -7,10 +7,12 @@ from models.expense import Expense
 
 
 def add_money(log_data):
-    print(log_data.money)
-    money_to_add = int(input('How much money would you like to add: '))
-    if money_to_add <= 0:
-        print("Invalid amount. You cannot add a negative amount of money.")
+    try:
+        money_to_add = int(input('How much money would you like to add -> '))
+        if money_to_add <= 0:
+            raise ValueError("Invalid amount. You cannot add a negative amount of money.")
+    except ValueError as e:
+        print(e)
         return
 
     log_data.money = money_to_add
@@ -20,9 +22,12 @@ def add_money(log_data):
 
 
 def withdraw_money(log_data):
-    amount = int(input('How much: '))
-    if amount < 0:
-        print('The expense must be a positive number!')
+    try:
+        amount = int(input('How much: '))
+        if amount < 0:
+            raise ValueError('The expense must be a positive number!')
+    except ValueError as e:
+        print(e)
         return
 
     if amount < 100:
@@ -48,9 +53,13 @@ def display_expenses(user_data):
     print('How would you like to see the expenses: \n1 - all\n2 - by date'
           '\n3 - by period\n4 - max in period\n5 - min in period'
           '\n6 - by category\n7 - max in category\n8 - min in category')
-    sorting = input()
-    if sorting not in ['1', '2', '3', '4', '5', '6', '7', '8']:
-        print('Invalid input. 1, 2, 3, 4, 5, 6, 7, 8 are the only valid commands.')
+    sorting = input('-> ')
+    try:
+        if sorting not in ['1', '2', '3', '4', '5', '6', '7', '8']:
+            raise ValueError('Invalid input. 1, 2, 3, 4, 5, 6, 7, 8 are the only valid commands.')
+    except ValueError as e:
+        print(e)
+        return
 
     expenses = []
     with open(db_path, 'r') as f:
@@ -58,12 +67,15 @@ def display_expenses(user_data):
 
         if sorting == '1':
             expenses = display_all_expenses(user_data.id, reader)
+            print('All expenses:')
 
         elif sorting == '2':
             expenses = display_by_date(user_data.id, reader)
+            print('All expenses for the date:')
 
         elif sorting == '3':
             expenses = display_by_period(user_data.id, reader)
+            print('All expenses in a given period: ')
 
         elif sorting == '4':
             expenses = display_max_by_period(user_data.id, reader)
