@@ -56,11 +56,11 @@ def display_expenses(user_data):
     """Displays different options to see expenses"""
     print('How would you like to see the expenses: \n1 - all\n2 - by date'
           '\n3 - by period\n4 - max in period\n5 - min in period'
-          '\n6 - by category\n7 - max in category\n8 - min in category')
+          '\n6 - by category\n7 - max in category\n8 - min in category\n9 - exit')
     sorting = input('-> ')
     try:
-        if sorting not in ['1', '2', '3', '4', '5', '6', '7', '8']:
-            raise ValueError('Invalid input. 1, 2, 3, 4, 5, 6, 7, 8 are the only valid commands.')
+        if sorting not in ['1', '2', '3', '4', '5', '6', '7', '8', '9']:
+            raise ValueError('Invalid input. 1, 2, 3, 4, 5, 6, 7, 8, 9 are the only valid commands.')
     except ValueError as e:
         print(e)
         return
@@ -99,6 +99,7 @@ def display_expenses(user_data):
         elif sorting == '8':
             expenses = display_min_in_category(user_data.id, reader)
             print('The minimum expenditure in each category: ')
-
+        elif sorting == '9':
+            exit()
     for expense in expenses:
         print(expense_view(expense))

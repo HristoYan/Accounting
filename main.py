@@ -117,16 +117,21 @@ def main():
         with open(db_path, 'w') as csv_file:
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
             writer.writeheader()
-
-    print(f'Hello, {(user_data.first_name).upper()} welcome to your account manager') # noqa
-    print('What would you like to do today?')
+    print()
+    print('      ----------##########----------')
+    print()
+    print(f'Hello, {(user_data.first_name).upper()} welcome to your account manager.') # noqa
+    print('      What would you like to do today?')
+    print()
+    print('      ----------##########----------')
+    print()
 
     while True:
-        print('Choose one of the following options: \n1 - add\n2 - expense\n3 - check\n4 - exit')
+        print('Choose one of the following options: \n1 - add\n2 - spend\n3 - check\n4 - exit')
         try:
             choice = input('-> ')
             if choice not in ['1', '2', '3', '4']:
-                raise ValueError('Invalid input. 1, 2, 3, 4 are the only valid commands.')
+                raise ValueError('Invalid input. 1, 2, 3, 4 are the only valid inputs.')
         except ValueError as e:
             print(e)
 
@@ -144,4 +149,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
