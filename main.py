@@ -123,10 +123,11 @@ def main():
     print(f'Hello, {(user_data.first_name).upper()} welcome to your account manager.') # noqa
     print('      What would you like to do today?')
     print()
-    print('      ----------##########----------')
+    print('      ------------------------------')
     print()
 
     while True:
+        print()
         print('Choose one of the following options: \n1 - add\n2 - spend\n3 - check\n4 - exit')
         try:
             choice = input('-> ')

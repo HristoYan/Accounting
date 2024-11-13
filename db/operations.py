@@ -100,6 +100,6 @@ def display_expenses(user_data):
             expenses = display_min_in_category(user_data.id, reader)
             print('The minimum expenditure in each category: ')
         elif sorting == '9':
-            exit()
+            return
     for expense in expenses:
         print(expense_view(expense))

@@ -20,6 +20,7 @@ class UserLog:
     def money(self, value):
         new_money = self._money + value
         self._money = new_money
+        print(f'Now you have {self._money}')
 
     def to_dict(self):
         log_info = {
